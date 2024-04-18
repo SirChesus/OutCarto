@@ -1,6 +1,7 @@
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import os
 
+#image data generation
 imagegen = ImageDataGenerator(rescale=1./255., rotation_range=30, horizontal_flip=True, validation_split=0.1)
 
 # get file path name, create a path, and create variables that connect to train, test, and validation files

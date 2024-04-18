@@ -4,7 +4,7 @@ import os
 
 imagegen = ImageDataGenerator(rescale=1./255., rotation_range=30, horizontal_flip=True, validation_split=0.1)
 
-path_to_zip = get_file('weatherData.zip', origin="https://static.junilearning.com/ai_level_2/weatherData.zip", extract=True)
+path_to_zip = get_file('weatherData.zip', origin= xxx , extract=True)
 PATH = os.path.join(os.path.dirname(path_to_zip), 'weatherData')
 train_dir = os.path.join(PATH, 'train')
 validation_dir = os.path.join(PATH, 'validation')

@@ -1,7 +1,5 @@
-from tensorflow.keras.utils import get_file
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import os
-
 
 imagegen = ImageDataGenerator(rescale=1./255., rotation_range=30, horizontal_flip=True, validation_split=0.1)
 

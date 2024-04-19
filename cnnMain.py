@@ -16,6 +16,7 @@ model.add(Conv2D(64,(3,3)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2,2)))
 
+#drops values during training at rate .25 ---> prevent overfitting
 model.add(Dropout(.25))
 
 model.add(Flatten())

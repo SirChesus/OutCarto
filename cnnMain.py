@@ -1,8 +1,9 @@
 from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, Activation
 from keras.models import Sequential
-from imageprocess import train_generator, validation_generator
 
 model = Sequential()
+
+from imageprocess import train_generator, validation_generator
 
 model.add(Conv2D(32,(3,3), input_shape=(224,224, 3)))
 model.add(Activation('relu'))
@@ -30,4 +31,4 @@ model.add(Dense(4))
 model.add(Activation('softmax'))
 
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics = ['accuracy'])
-model.fit_generator(train_generator, epochs = 10, validation_data= validation_generator)
+model.fit(train_generator, epochs = 10, validation_data= validation_generator)

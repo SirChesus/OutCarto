@@ -2,12 +2,6 @@ from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, Activati
 from keras.models import Sequential
 from imageprocess import train_generator, validation_generator
 
-# good info https://keras.io/guides/sequential_model/
-# https://www.datacamp.com/tutorial/tutorial-gradient-descent 
-
-#sequential has 3 variables when initilizing, layers, trainable, name
-# layers is self explanatory, number of layers for the model, trainable is it trainable, and name is just name
-
 model = Sequential()
 
 model.add(Conv2D(32,(3,3), input_shape=(224,224, 3)))

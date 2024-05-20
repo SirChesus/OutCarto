@@ -5,7 +5,7 @@ import os
 imagegen = ImageDataGenerator(rescale=1./255., rotation_range=30, horizontal_flip=True, validation_split=0.1)
 
 # get file path name, create a path, and create variables that connect to train, test, and validation files
-path_to_zip = '/Users/mayankkattela/Downloads/weatherData'
+path_to_zip = '/Users/mayankkattela/Desktop/weatherData'
 PATH = os.path.join(os.path.dirname(path_to_zip), 'weatherData')
 train_dir = os.path.join(PATH, 'train')
 validation_dir = os.path.join(PATH, 'validation')

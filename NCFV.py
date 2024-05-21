@@ -16,6 +16,7 @@ kfold = KFold(n_splits=4, shuffle=True)
 fold_no = 1
 for train, test in kfold.split(inputs, targets):
 
+# work with makemodel to create a CNN model repeatedly for NCFV
 model = makeModel()
 
   # Compile the model

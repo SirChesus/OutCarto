@@ -1,8 +1,6 @@
 #BASIC CODE, NEEDS WORK
 #Nested cross fold validation
-
-from tensorflow.keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, Activation
+from makemodel import *
 from imageprocess import train_generator, validation_generator
 from sklearn.model_selection import KFold
 import numpy as np
@@ -17,26 +15,8 @@ kfold = KFold(n_splits=4, shuffle=True)
 # K-fold Cross Validation model evaluation
 fold_no = 1
 for train, test in kfold.split(inputs, targets):
-  # Define the model architecture
-  model = Sequential()
-  model.add(Conv2D(32, (3, 3), input_shape=(224, 224, 3)))
-  model.add(Activation('relu'))
-  model.add(MaxPooling2D(pool_size=(2, 2)))
-  model.add(Conv2D(64, (3, 3)))
-  model.add(Activation('relu'))
-  model.add(MaxPooling2D(pool_size=(2, 2)))
-  model.add(Conv2D(64, (3, 3)))
-  model.add(Activation('relu'))
-  model.add(MaxPooling2D(pool_size=(2, 2)))
-  # drops values during training at rate .25 ---> prevent overfitting
-  model.add(Dropout(.25))
-  model.add(Flatten())
-  model.add(Dense(128))
-  model.add(Activation('relu'))
-  model.add(Dense(128))
-  model.add(Activation('relu'))
-  model.add(Dense(4))
-  model.add(Activation('softmax'))
+
+model = makeModel()
 
   # Compile the model
   model.compile(loss='categorical_crossentropy',

@@ -1,5 +1,6 @@
 from tensorflow.keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout, Activation
+
 def makeModel():
     model = Sequential()
     model.add(Conv2D(32, (3, 3), input_shape=(224, 224, 3)))

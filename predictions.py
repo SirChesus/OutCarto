@@ -1,14 +1,17 @@
 from cnnMain import model
 import imageprocess
 #-----------------------------------------------------------------------
-test_generator = imageprocess.imagegen.flow_from_directory(imageprocess.test_dir, class_mode="categorical", shuffle=False, batch_size=128, target_size=(224, 224))
-examples_datagen = imageprocess.ImageDataGenerator(rescale=1./255)
-examples_generator = examples_datagen.flow_from_directory(imageprocess.PATH, target_size=(224,224), classes=['examples'], shuffle=False)
+#examples_datagen = imageprocess.ImageDataGenerator(rescale=1./255)
+#examples_generator = examples_datagen.flow_from_directory(imageprocess.PATH, target_size=(224,224), classes=['examples'], shuffle=False)
+example_datagen = imageprocess.ImageDataGenerator(rescale=1./255)
+examples_generator = example_datagen.flow_from_directory(imageprocess.test_dir, target_size=(50,50), shuffle=False)
+
 
 examples_generator.reset()
 pred = model.predict(examples_generator)
 
 predicted_classes = []
+print('---- ', model.predict_on_batch(examples_generator[0]))
 
 for p in pred:
   predicted_class = -1

@@ -1,6 +1,7 @@
 from imageprocess import *
 from cnnMain import *
 from predictions import examples_generator
+from predictions import predicted_classes
 
 print(' ')
 # printing predictions 

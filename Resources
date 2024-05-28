@@ -10,3 +10,10 @@ Loss Functions
   - Probabilistic Losses - https://keras.io/api/losses/probabilistic_losses/
   - Regression Losses - https://keras.io/api/losses/regression_losses/
   - Hinge Losses - https://en.wikipedia.org/wiki/Hinge_loss#Extensions
+
+
+Resnet Paper - https://arxiv.org/pdf/1512.03385
+Resnet Explained - https://www.youtube.com/watch?v=o_3mboe1jYI
+
+U-net Structure Paper - https://arxiv.org/pdf/1505.04597
+U-net Structure explained - https://www.youtube.com/watch?v=NhdzGfB1q74&t=269s

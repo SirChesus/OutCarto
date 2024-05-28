@@ -35,6 +35,9 @@ images = []
 for i in examples_generator.file_paths:
   # need to convert file path to image and then append it to the image list
   images.append(mpimg.imread(i))
+  # could be much more efficient
+  #images.reverse()
+
 
 # Initial image index, sent to negative one since on startup calls nextImage
 current_index = -1
@@ -45,46 +48,47 @@ text = False
 # moves to next shape in dataset
 def next_shape(event):
   global current_index
+  # gets all the images, not sure if file_paths is needed if there is an easier way to convert to an array
   numberOfImages = len(list(examples_generator.file_paths))
-  numberOfClasses = len(list(imageprocess.train_generator.class_indices.items()))
-  # only works if each train thing is the same
-  imagesPerClass = numberOfImages / numberOfClasses
-  # multiplying currentIndex * # of different classes / total length to then add 1 and multiply by reciporacol
-  #print(current_index)
-  #print(len(list(imageprocess.train_generator.class_indices.items())))
-  #print(len(list(examples_generator.file_paths)))
-  #print(current_index * len(list(imageprocess.train_generator.class_indices.items())) / len(list(examples_generator.file_paths)) + 1)
-  #print(" * ", (len(list(examples_generator.file_paths)) / len(list(imageprocess.train_generator.class_indices.items()))))
-  #current_index = (int)(current_index * len(list(imageprocess.train_generator.class_indices.items())) * (len(list(examples_generator.file_paths)) + 1) * (int)(len(list(examples_generator.file_paths)) / len(list(imageprocess.train_generator.class_indices.items()))))
-  #print(current_index)
 
-  #current_index = int(current_index - current_index % imagesPerClass + imagesPerClass)
-  
-  fileShape = examples_generator.file_paths[current_index].split("/")
-  fileShape = fileShape[len(fileShape)-1].split("_")[0]
-  print(fileShape)
+  # gets the last folder that the file path is in, should be the class **TODO** fix comment
+  fileShape = examples_generator.file_paths[current_index].split("\\")
+  print("file Shape = ", fileShape)
+  fileShape = fileShape[len(fileShape)-2]
+  print("specific File Shape = ", fileShape)
 
+  # loops through all the images from current index adding +1 to current index for each file that's name contains the shape
   for i in range(current_index, len(examples_generator.file_paths)):
     #print(examples_generator.file_paths[i])
     if (fileShape in examples_generator.file_paths[i]):
       current_index += 1
+  
+  # preventing overflow errors, will just loop around
   current_index = current_index % numberOfImages
   
-  print(current_index)
+  # updates the display with a new prediction and the current index
   update_image(current_index, predictOnModel())
 
 
 # Function to update the displayed image
 def update_image(index, prediction):
   global text
+  
   img.set_data(images[index])
-  ax.set_title(f'Image {index + 1}')
+  
+  # setting the title to the file name
+  fileShape = examples_generator.file_paths[current_index].split("\\")
+  fileShape = fileShape[len(fileShape)-1]
+  ax.set_title(fileShape, fontsize = 7)
+
+  # setting the text so no new object is created
   text.set_text(prediction)
   plt.draw()
 
 def predictOnModel():
   # getting image based on path
   img_path = examples_generator.file_paths[current_index]
+  print("path it is predicting on", img_path)
 
   # Load and preprocess the image
   img_array = load_and_preprocess_image(img_path, (50, 50))
@@ -104,7 +108,7 @@ def next_image(event):
 # Set up the figure and axis
 fig, ax = plt.subplots()
 img = ax.imshow(images[current_index+1], cmap='gray')  # Initial image
-text = ax.text(0.2,10, "empty", fontsize = 10, color = 'black')
+text = ax.text(0.2,10, "empty", fontsize = 6, color = 'black')
 next_image(None)
 
 

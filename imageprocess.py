@@ -15,9 +15,9 @@ validation_dir = os.path.join(PATH, 'validation')
 test_dir = os.path.join(PATH, 'test')
 
 #create gens
-train_generator = imagegen.flow_from_directory(train_dir, class_mode="categorical", shuffle=True, batch_size=128, target_size=(50, 50), color_mode = 'grayscale')
-validation_generator = imagegen.flow_from_directory(validation_dir, class_mode="categorical", shuffle=True, batch_size=128, target_size=(50, 50), color_mode = 'grayscale')
-test_generator = imagegen.flow_from_directory(test_dir, class_mode="categorical", shuffle=False, batch_size=128, target_size=(50, 50), color_mode = 'grayscale')
+train_generator = imagegen.flow_from_directory(train_dir, class_mode="categorical", shuffle=True, batch_size=64, target_size=(50, 50), color_mode = 'grayscale')
+validation_generator = imagegen.flow_from_directory(validation_dir, class_mode="categorical", shuffle=True, batch_size=64, target_size=(50, 50), color_mode = 'grayscale')
+test_generator = imagegen.flow_from_directory(test_dir, class_mode="categorical", shuffle=False, batch_size=64, target_size=(50, 50), color_mode = 'grayscale')
 
 # takes in a path and spits out an image
 def returnImageFromPath(path):

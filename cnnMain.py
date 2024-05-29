@@ -26,4 +26,4 @@ model.add(Activation('softmax'))
 
 
 model.compile(loss=keras.losses.CategoricalFocalCrossentropy(), optimizer=keras.optimizers.Adam(), metrics = ['accuracy'])
-model.fit(train_generator, epochs = 0, validation_data= validation_generator)
+model.fit(train_generator, epochs = 20, validation_data= validation_generator)

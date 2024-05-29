@@ -6,19 +6,35 @@ import matplotlib.image as mpimg
 from matplotlib import animation
 import numpy as np
 from matplotlib.widgets import Button
+from PIL import Image
+
 
 import numpy as np
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.vgg16 import preprocess_input, decode_predictions
 
-def load_and_preprocess_image(img_path, target_size):
-    """
-    Load an image from the file path and preprocess it.
-    """
-    img = image.load_img(img_path, target_size=target_size)
-    img_array = image.img_to_array(img)
+def load_and_preprocess_image(img_path, target_size=(50, 50)):
+    # Load the image with PIL
+    img = Image.open(img_path)
+    
+    # Convert the image to grayscale
+    img = img.convert('L')
+    
+    # Resize the image to the target size
+    img = img.resize(target_size)
+    
+    # Convert the image to a numpy array
+    img_array = np.array(img)
+    
+    # Add an extra dimension to match the expected input shape (50, 50, 1)
+    img_array = np.expand_dims(img_array, axis=-1)
+    
+    # Expand dimensions to match the batch size
     img_array = np.expand_dims(img_array, axis=0)
-    img_array = preprocess_input(img_array)
+    
+    # Normalize pixel values to the range [0, 1]
+    img_array = img_array / 255.0
+    
     return img_array
 
 
@@ -53,9 +69,7 @@ def next_shape(event):
 
   # gets the last folder that the file path is in, should be the class **TODO** fix comment
   fileShape = examples_generator.file_paths[current_index].split("\\")
-  print("file Shape = ", fileShape)
   fileShape = fileShape[len(fileShape)-2]
-  print("specific File Shape = ", fileShape)
 
   # loops through all the images from current index adding +1 to current index for each file that's name contains the shape
   for i in range(current_index, len(examples_generator.file_paths)):
@@ -73,9 +87,14 @@ def next_shape(event):
 # Function to update the displayed image
 def update_image(index, prediction):
   global text
-  
-  img.set_data(images[index])
-  
+
+  image = mpimg.imread(examples_generator.file_paths[current_index])
+  image = np.dot(image[..., :3], [0.2989, 0.5870, 0.1140])
+
+  img.set_data(image)
+
+  #img.set_data(Image.open(examples_generator.file_paths[index]).convert("L"))
+
   # setting the title to the file name
   fileShape = examples_generator.file_paths[current_index].split("\\")
   fileShape = fileShape[len(fileShape)-1]
@@ -91,19 +110,24 @@ def predictOnModel():
   print("path it is predicting on", img_path)
 
   # Load and preprocess the image
-  img_array = load_and_preprocess_image(img_path, (50, 50))
+  img_array = load_and_preprocess_image(img_path, target_size=(50,50))
   prediction = model.predict(img_array)
   # converting the prediction to the highest guess
   return list(imageprocess.train_generator.class_indices.items())[np.argmax(prediction)][0]
 
 
-# Callback function for the button
+# Call back next button
 def next_image(event):
   global current_index
   current_index = (current_index + 1) % len(images)
   
   update_image(current_index, predictOnModel())
     
+# Call back previous button
+def previous_image(event):
+  global current_index
+  current_index = (current_index - 1) % len(images)
+  update_image(current_index, predictOnModel())
 
 # Set up the figure and axis
 fig, ax = plt.subplots()
@@ -124,6 +148,8 @@ btn_next.on_clicked(next_image)
 btn_next_shape = Button(plt.axes([.81,.15,.25,.07]), 'Next Shape')
 btn_next_shape.on_clicked(next_shape)
 
+btn_previous = Button(plt.axes([.81,.25,.1,.20]), 'Previous')
+btn_previous.on_clicked(previous_image)
 
 # Display the plot
 plt.show()

@@ -5,7 +5,7 @@ from imageprocess import train_generator, validation_generator
 
 model = Sequential()
 
-model.add(Conv2D(128,(3,3), input_shape=(50,50, 3)))
+model.add(Conv2D(128,(3,3), input_shape=(50,50, 1)))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=(2,2)))
 
@@ -26,4 +26,4 @@ model.add(Activation('softmax'))
 
 
 model.compile(loss=keras.losses.CategoricalFocalCrossentropy(), optimizer=keras.optimizers.Adam(), metrics = ['accuracy'])
-model.fit(train_generator, epochs = 5, validation_data= validation_generator)
+model.fit(train_generator, epochs = 0, validation_data= validation_generator)

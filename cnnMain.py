@@ -5,18 +5,22 @@ from imageprocess import train_generator, validation_generator
 
 model = Sequential()
 
-model.add(Conv2D(128,(3,3), input_shape=(50,50, 1)))
+model.add(Conv2D(128,(3,3), input_shape=(100,100,3)))
 model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
 
 model.add(Conv2D(64, (3,3)))
 model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
+# removed pooling layer, testing
+model.add(Conv2D(64, (3,3)))
+model.add(Activation('relu'))
 
 #drops values during training at rate .25 ---> prevent overfitting
 model.add(Dropout(.25))
 
 model.add(Flatten())
+
+model.add(Dense(126))
+model.add(Activation('relu'))
 
 model.add(Dense(64))
 model.add(Activation('relu'))
@@ -25,5 +29,5 @@ model.add(Dense(8))
 model.add(Activation('softmax'))
 
 
-model.compile(loss=keras.losses.CategoricalFocalCrossentropy(), optimizer=keras.optimizers.Adam(), metrics = ['accuracy'])
+model.compile(loss=keras.losses.CategoricalFocalCrossentropy(), optimizer=keras.optimizers.AdamW(learning_rate=2e-3, weight_decay=.005, use_ema=True), metrics = ['accuracy'])
 model.fit(train_generator, epochs = 20, validation_data= validation_generator)

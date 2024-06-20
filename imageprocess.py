@@ -8,16 +8,16 @@ import keras
 imagegen = ImageDataGenerator(rescale=1./255., rotation_range=30, horizontal_flip=True, validation_split=0.1)
 
 # get file path name, create a path, and create variables that connect to train, test, and validation files
-path_to_zip = os.getcwd() + '\\shapeDataFull'
-PATH = os.path.join(os.path.dirname(path_to_zip), 'shapeDataFull')
+path_to_zip = os.getcwd() + '\\shapeDataLimited'
+PATH = os.path.join(os.path.dirname(path_to_zip), 'shapeDataLimited')
 train_dir = os.path.join(PATH, 'train')
 validation_dir = os.path.join(PATH, 'validation')
 test_dir = os.path.join(PATH, 'test')
 
 #create gens
-train_generator = imagegen.flow_from_directory(train_dir, class_mode="categorical", shuffle=True, batch_size=64, target_size=(50, 50), color_mode = 'grayscale')
-validation_generator = imagegen.flow_from_directory(validation_dir, class_mode="categorical", shuffle=True, batch_size=64, target_size=(50, 50), color_mode = 'grayscale')
-test_generator = imagegen.flow_from_directory(test_dir, class_mode="categorical", shuffle=False, batch_size=64, target_size=(50, 50), color_mode = 'grayscale')
+train_generator = imagegen.flow_from_directory(train_dir, class_mode="categorical", shuffle=True, batch_size=100, target_size=(100, 100), seed = 42)
+validation_generator = imagegen.flow_from_directory(validation_dir, class_mode="categorical", shuffle=True, batch_size=10, target_size=(100, 100))
+test_generator = imagegen.flow_from_directory(test_dir, class_mode="categorical", shuffle=False, batch_size=10, target_size=(100, 100))
 
 # takes in a path and spits out an image
 def returnImageFromPath(path):

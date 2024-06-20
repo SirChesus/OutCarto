@@ -13,12 +13,12 @@ import numpy as np
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.vgg16 import preprocess_input, decode_predictions
 
-def load_and_preprocess_image(img_path, target_size=(50, 50)):
+def load_and_preprocess_image(img_path, target_size=(100, 100, 3)):
     # Load the image with PIL
     img = Image.open(img_path)
     
     # Convert the image to grayscale
-    img = img.convert('L')
+    #img = img.convert('L')
     
     # Resize the image to the target size
     img = img.resize(target_size)
@@ -43,7 +43,7 @@ def load_and_preprocess_image(img_path, target_size=(50, 50)):
 #examples_generator = examples_datagen.flow_from_directory(imageprocess.PATH, target_size=(224,224), classes=['examples'], shuffle=False)
 example_datagen = imageprocess.ImageDataGenerator(rescale=1./255)
 #examples_generator = example_datagen.flow_from_directory(imageprocess.PATH, target_size=(50,50), shuffle=False)
-examples_generator = keras.utils.image_dataset_from_directory(imageprocess.test_dir, image_size=(50,50), shuffle=False)
+examples_generator = keras.utils.image_dataset_from_directory(imageprocess.test_dir, image_size=(100,100), shuffle=False)
 
 
 # creates a list of images
@@ -110,10 +110,13 @@ def predictOnModel():
   print("path it is predicting on", img_path)
 
   # Load and preprocess the image
-  img_array = load_and_preprocess_image(img_path, target_size=(50,50))
+  img_array = load_and_preprocess_image(img_path, target_size=(200,200))
   prediction = model.predict(img_array)
   # converting the prediction to the highest guess
   return list(imageprocess.train_generator.class_indices.items())[np.argmax(prediction)][0]
+
+# trains the ai for one more epoch
+
 
 
 # Call back next button
@@ -131,9 +134,11 @@ def previous_image(event):
 
 # Set up the figure and axis
 fig, ax = plt.subplots()
-img = ax.imshow(images[current_index+1], cmap='gray')  # Initial image
-text = ax.text(0.2,10, "empty", fontsize = 6, color = 'black')
+img = ax.imshow(images[current_index+1])  # Initial image
 next_image(None)
+
+text = plt.axes([.1,.8,.2,.2], "empty", fontsize = 6, color = 'black')
+
 
 
 ax.set_xticks([])

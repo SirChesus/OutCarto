@@ -17,3 +17,7 @@ Resnet Explained - https://www.youtube.com/watch?v=o_3mboe1jYI
 
 U-net Structure Paper - https://arxiv.org/pdf/1505.04597
 U-net Structure explained - https://www.youtube.com/watch?v=NhdzGfB1q74&t=269s
+
+Different Keras Architectures - https://keras.io/api/applications/
+
+** use - https://keras.io/api/applications/#usage-examples-for-image-classification-models for rn 6/20/24

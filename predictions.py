@@ -13,7 +13,7 @@ import numpy as np
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications.vgg16 import preprocess_input, decode_predictions
 
-def load_and_preprocess_image(img_path, target_size=(100, 100, 3)):
+def load_and_preprocess_image(img_path, target_size=(100, 100)):
     # Load the image with PIL
     img = Image.open(img_path)
     
@@ -27,7 +27,7 @@ def load_and_preprocess_image(img_path, target_size=(100, 100, 3)):
     img_array = np.array(img)
     
     # Add an extra dimension to match the expected input shape (50, 50, 1)
-    img_array = np.expand_dims(img_array, axis=-1)
+    #img_array = np.expand_dims(img_array, axis=-1)
     
     # Expand dimensions to match the batch size
     img_array = np.expand_dims(img_array, axis=0)
@@ -110,7 +110,7 @@ def predictOnModel():
   print("path it is predicting on", img_path)
 
   # Load and preprocess the image
-  img_array = load_and_preprocess_image(img_path, target_size=(200,200))
+  img_array = load_and_preprocess_image(img_path)
   prediction = model.predict(img_array)
   # converting the prediction to the highest guess
   return list(imageprocess.train_generator.class_indices.items())[np.argmax(prediction)][0]
